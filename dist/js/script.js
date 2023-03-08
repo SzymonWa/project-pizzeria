@@ -91,19 +91,21 @@
       /* START: add event listener to clickable trigger on event click */
       thisProduct.accordionTrigger.addEventListener('click', function(event) {
       /* prevent default action for event */
-      event.preventDefault();
-      /* find active product (product that has active class) */
-      const activeProduct = thisProduct.element.querySelector(classNames.menuProduct.wrapperActive);
-      console.log(thisProduct);
-      console.log(thisProduct.element);
-      console.log(activeProduct);
-      /* if there is active product and it's not thisProduct.element, remove class active from it */
-      if(activeProduct){
-        activeProduct.classList.toggle(classNames.menuProduct.wrapperActive);
-      }
-      /* toggle active class on thisProduct.element */
-      thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
-    });
+        event.preventDefault();
+        /* find active product (product that has active class) */
+        const activeProduct = document.querySelector('.product.active');
+        console.log(thisProduct);
+        console.log(thisProduct.element);
+        console.log(activeProduct);
+        /* if there is active product and it's not thisProduct.element, remove class active from it */
+        if(activeProduct){
+          if(activeProduct !== thisProduct.element){
+            activeProduct.classList.remove(classNames.menuProduct.wrapperActive);
+          }  
+        }
+        /* toggle active class on thisProduct.element */
+        thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
+      });
     }
     initOrderForm(){
       const thisProduct = this;
@@ -148,34 +150,34 @@
           
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
           
-            if(optionSelected) {
-              // check if the option is not default
-              if(!option.default) {
-                // add option price to price variable
-                price = price + option.price;
-              }
+          if(optionSelected) {
+            // check if the option is not default
+            if(!option.default) {
+              // add option price to price variable
+              price = price + option.price;
+            }
+          } else {
+            // check if the option is default
+            if(option.default) {
+              // reduce price variable
+              price = price - option.price;
+            }
+          } 
+          if(optionImage) {
+            if(optionSelected) {            
+              optionImage.classList.add(classNames.menuProduct.imageVisible);
             } else {
-              // check if the option is default
-              if(option.default) {
-                // reduce price variable
-                price = price - option.price;
-              }
+              optionImage.classList.remove(classNames.menuProduct.imageVisible);
             } 
-            if(optionImage) {
-              if(optionSelected) {            
-                  optionImage.classList.add(classNames.menuProduct.imageVisible);
-              } else {
-                  optionImage.classList.remove(classNames.menuProduct.imageVisible);
-              } 
-              }
+          }
             
           // check if there is param with a name of paramId in formData and if it includes optionId
           
-      }
+        }
     
-      // update calculated price in the HTML
-      thisProduct.priceElem.innerHTML = price;
-    }
+        // update calculated price in the HTML
+        thisProduct.priceElem.innerHTML = price;
+      }
     }
     initAmountWidget(){
       const thisProduct = this;
@@ -220,7 +222,7 @@
     }
     initActions(){
       const thisWidget = this;
-      thisWidget.input.addEventListener('change', function(event){
+      thisWidget.input.addEventListener('change', function(){
         thisWidget.setValue(thisWidget.input.value);
       });
       thisWidget.linkDecrease.addEventListener('click', function(event){
@@ -232,7 +234,7 @@
       thisWidget.linkIncrease.addEventListener('click', function(event){
         event.preventDefault();
         
-          thisWidget.setValue(thisWidget.value+1);
+        thisWidget.setValue(thisWidget.value+1);
           
       });
     }
