@@ -209,10 +209,11 @@
         }
     
         // update calculated price in the HTML
-        price *= thisProduct.amountWidget.value;
-        thisProduct.priceSingle = price;
-        thisProduct.priceElem.innerHTML = price;
+        
       }
+      price *= thisProduct.amountWidget.value;
+      thisProduct.priceSingle = price;
+      thisProduct.priceElem.innerHTML = price;
     }
     initAmountWidget(){
       const thisProduct = this;
